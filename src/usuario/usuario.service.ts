@@ -15,12 +15,6 @@ export class UsuarioService {
         private readonly bonoRepository: Repository<BonoEntity>
     ) {}
 
-      
-  async findAll(): Promise<UsuarioEntity[]> {
-    return this.usuarioRepository.find({ relations: ['clases', 'bonos'] });
-  }
-
-
     async crearUsuario(usuario: UsuarioEntity): Promise<UsuarioEntity> {
         if (usuario.rol === 'Profesor' && !['TICSW', 'IMAGINE', 'COMIT'].includes(usuario.grupo)) {
             throw new BusinessLogicException('El grupo de investigación debe ser uno de los siguientes: TICSW, IMAGINE, COMIT.', BusinessError.BAD_REQUEST);

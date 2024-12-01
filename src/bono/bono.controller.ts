@@ -16,12 +16,6 @@ export class BonoController {
     return await this.bonoService.crearBono(bono);
   }
 
-  
-  @Get()
-  async findAll() {
-    return await this.bonoService.findAll();
-  }
-
   @Get('clase/:cod')
   async findBonoByCodigo(@Param('cod') cod: string) {
     return await this.bonoService.findBonoByCodigo(cod);

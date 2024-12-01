@@ -10,11 +10,6 @@ import { UsuarioService } from './usuario.service';
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
-  @Get()
-  async findAll() {
-    return await this.usuarioService.findAll();
-  }
-
   @Post()
   async crearUsuario(@Body() usuarioDto: UsuarioDto) {
     const usuario: UsuarioEntity = plainToInstance(UsuarioEntity, usuarioDto);
