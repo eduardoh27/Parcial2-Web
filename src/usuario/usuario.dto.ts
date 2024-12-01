@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsInt, Length } from 'class-validator';
+import { IsNotEmpty, IsString, IsInt, IsIn } from 'class-validator';
 
 export class UsuarioDto {
   @IsInt()
@@ -17,9 +17,8 @@ export class UsuarioDto {
   @IsNotEmpty()
   readonly numero: number;
 
-  @IsString()
+  @IsIn(['Profesor', 'Decana'])
   @IsNotEmpty()
-  @Length(6, 7) // Para roles como "Profesor" o "Decana"
   readonly rol: string;
 
   @IsString()

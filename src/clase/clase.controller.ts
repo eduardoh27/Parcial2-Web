@@ -10,6 +10,12 @@ import { ClaseService } from './clase.service';
 export class ClaseController {
   constructor(private readonly claseService: ClaseService) {}
 
+  @Get()
+  async findAll() {
+    return await this.claseService.findAll();
+  }
+
+
   @Post()
   async crearClase(@Body() claseDto: ClaseDto) {
     const clase: ClaseEntity = plainToInstance(ClaseEntity, claseDto);

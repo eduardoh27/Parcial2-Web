@@ -19,6 +19,10 @@ export class BonoService {
         private readonly claseRepository: Repository<ClaseEntity>
     ) {}
 
+    async findAll(): Promise<BonoEntity[]> {
+        return this.bonoRepository.find({ relations: ['clase', 'usuario'] });
+      }
+
     async crearBono(bono: BonoEntity): Promise<BonoEntity> {
         if (!bono.monto || bono.monto <= 0) {
             throw new BusinessLogicException('El monto del bono debe ser un valor positivo.', BusinessError.BAD_REQUEST);

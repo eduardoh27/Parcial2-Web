@@ -1,0 +1,1523 @@
+{
+	"info": {
+		"_postman_id": "711a6aa7-55b2-4b62-9358-c0373237b291",
+		"name": "Parcial2",
+		"description": "# Documentación y Pruebas del API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31458985"
+	},
+	"item": [
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Crear un usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.globals.set(\"usuario_id\", data.id); \r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cedula\": 123456,\r\n  \"nombre\": \"Juan\",\r\n  \"grupo\": \"TICSW\",\r\n  \"numero\": 12345678,\r\n  \"rol\": \"Profesor\",\r\n  \"jefeId\": \"\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Crear un usuario",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cedula\": 123456,\r\n  \"nombre\": \"Juan\",\r\n  \"grupo\": \"TICSW\",\r\n  \"numero\": 12345678,\r\n  \"rol\": \"Profesor\",\r\n  \"jefeId\": \"\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"cedula\": 123456,\r\n    \"nombre\": \"Juan\",\r\n    \"grupo\": \"TICSW\",\r\n    \"numero\": 12345678,\r\n    \"rol\": \"Profesor\",\r\n    \"jefeId\": \"\",\r\n    \"id\": \"25053780-1d7f-4d0f-a441-d0db92ea7a92\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Crear un usuario inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"  pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Get expected error message\", function () {\r",
+									"  var data = pm.response.json();\r",
+									"  pm.expect(data.message).to.eql(\"El grupo de investigación debe ser uno de los siguientes: TICSW, IMAGINE, COMIT.\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cedula\": 123456,\r\n  \"nombre\": \"Juan\",\r\n  \"grupo\": \"INVALID_GROUP\",\r\n  \"numero\": 12345678,\r\n  \"rol\": \"Profesor\",\r\n  \"jefeId\": \"\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Crear un usuario inválido",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cedula\": 123456,\r\n  \"nombre\": \"Juan\",\r\n  \"grupo\": \"INVALID_GROUP\",\r\n  \"numero\": 12345678,\r\n  \"rol\": \"Profesor\",\r\n  \"jefeId\": \"\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"statusCode\": 400,\r\n    \"message\": \"El grupo de investigación debe ser uno de los siguientes: TICSW, IMAGINE, COMIT.\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Obtener un usuario por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/{{usuario_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"{{usuario_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener un usuario por ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/{{usuario_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"{{usuario_id}}"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"cedula\": 123456,\r\n    \"nombre\": \"Juan\",\r\n    \"grupo\": \"TICSW\",\r\n    \"numero\": 12345678,\r\n    \"rol\": \"Profesor\",\r\n    \"jefeId\": \"\",\r\n    \"id\": \"25053780-1d7f-4d0f-a441-d0db92ea7a92\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Obtener un usuario por ID inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Get expected error message\", function () {\r",
+									"  var data = pm.response.json();\r",
+									"  pm.expect(data.message).to.eql(\"Usuario no encontrado\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener un usuario por ID inválido",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/00000000-0000-0000-0000-000000000000",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"00000000-0000-0000-0000-000000000000"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"statusCode\": 404,\r\n    \"message\": \"Usuario no encontrado\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Eliminar un usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/{{usuario_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"{{usuario_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Eliminar un usuario",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/{{usuario_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"{{usuario_id}}"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Eliminar un usuario inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"   pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Get expected error message\", function () {\r",
+									"   var data = pm.response.json();\r",
+									"   pm.expect(data.message).to.eql(\"Usuario no encontrado\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Eliminar un usuario inválido",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/00000000-0000-0000-0000-000000000000",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"00000000-0000-0000-0000-000000000000"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"statusCode\": 404,\r\n    \"message\": \"Usuario no encontrado\"\r\n}"
+						}
+					]
+				}
+			],
+			"description": "### Descripción de las pruebas\n\n#### 1\\. **Crear Usuario**\n\n- **Caso Positivo (Crear Usuario Válido)**: Verifica que el API pueda crear un usuario correctamente, esencial para el flujo principal de la aplicación.\n    \n- **Caso Negativo (Grupo Inválido)**: Asegura que el API aplique las restricciones de negocio al crear un usuario, previniendo datos inválidos.\n    \n\n#### 2\\. **Obtener Usuario por ID**\n\n- **Caso Positivo (ID Válido)**: Comprueba que el usuario pueda ser recuperado correctamente si existe, asegurando la consistencia de la base de datos.\n    \n- **Caso Negativo (Usuario No Existente)**: Garantiza que el API maneje adecuadamente los intentos de acceder a usuarios inexistentes, devolviendo un `404 Not Found`.\n    \n\n#### 3\\. **Eliminar Usuario**\n\n- **Caso Positivo (Eliminar Usuario Válido)**: Asegura que la eliminación de un usuario funcione como se espera.\n    \n- **Caso Negativo (Eliminar Usuario Inválido)**: Valida que los usuarios inexistentes no pueden ser eliminados."
+		},
+		{
+			"name": "Clases",
+			"item": [
+				{
+					"name": "Crear una clase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.globals.set(\"clase_id\", data.id);  \r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Programación Avanzada\",\r\n  \"codigo\": \"CODIGO2727\",\r\n  \"creditos\": 3\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clases",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clases"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Crear una clase",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombre\": \"Programación Avanzada\",\r\n  \"codigo\": \"CODIGO1234\",\r\n  \"creditos\": 3\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/clases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clases"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"nombre\": \"Programación Avanzada\",\r\n    \"codigo\": \"CODIGO2727\",\r\n    \"creditos\": 3\r\n    \"id\": \"23d3db0d-3202-44d2-b5ad-e5ef5a626a1a\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Crear una clase inválida",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"  pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Get expected error message\", function () {\r",
+									"  var data = pm.response.json();\r",
+									"  pm.expect(data.message[0]).to.eql(\"codigo must be shorter than or equal to 10 characters\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Programación Avanzada\",\r\n  \"codigo\": \"CODIGO1234+\",\r\n  \"creditos\": 3\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clases",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clases"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Crear una clase inválida",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombre\": \"Programación Avanzada\",\r\n  \"codigo\": \"CODIGO1234+\",\r\n  \"creditos\": 3\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/clases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clases"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": [\r\n        \"codigo must be shorter than or equal to 10 characters\"\r\n    ],\r\n    \"error\": \"Bad Request\",\r\n    \"statusCode\": 400\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Obtener una clase por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clases/{{clase_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clases",
+								"{{clase_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener una clase por ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/clases/{{clase_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clases",
+										"{{clase_id}}"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"id\": \"23d3db0d-3202-44d2-b5ad-e5ef5a626a1a\",\r\n    \"nombre\": \"Programación Avanzada\",\r\n    \"codigo\": \"CODIGO1234\",\r\n    \"creditos\": 3\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Obtener una clase por ID inválida",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Get expected error message\", function () {\r",
+									"  var data = pm.response.json();\r",
+									"  pm.expect(data.message).to.eql(\"Clase no encontrada\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clases/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clases",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener una clase por ID inválida",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/clases/00000000-0000-0000-0000-000000000000",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clases",
+										"00000000-0000-0000-0000-000000000000"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"statusCode\": 404,\r\n    \"message\": \"Clase no encontrada\"\r\n}"
+						}
+					]
+				}
+			],
+			"description": "### Descripción de las pruebas\n\n#### 1\\. **Crear Clase**\n\n- **Caso Positivo (Crear Clase Válida)**: Verifica que la API pueda crear una clase cuando se cumplen los requisitos. Este es un flujo principal esencial para el sistema, asegurando que los datos sean correctos y completos.\n    \n- **Caso Negativo (Código Inválido)**: Asegura que el sistema rechace códigos de clase que no cumplan con la longitud establecida (exactamente 10 caracteres), garantizando que los datos almacenados sean consistentes.\n    \n\n#### 2\\. **Eliminar Clase**\n\n- **Caso Positivo (Eliminar Clase Existente)**: Comprueba que la API pueda eliminar una clase correctamente, asegurando que los datos se gestionen adecuadamente a lo largo de su ciclo de vida.\n    \n- **Caso Negativo (Eliminar Clase No Existente)**: Verifica que la API maneje adecuadamente el intento de eliminar una clase que no existe, devolviendo el error `404 Not Found` para una respuesta coherente.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"pm.globals.get(\"variable_key\");"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Bonos",
+			"item": [
+				{
+					"name": "Crear un usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.globals.set(\"usuario_id\", data.id); \r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cedula\": 1234567,\r\n  \"nombre\": \"Juan\",\r\n  \"grupo\": \"TICSW\",\r\n  \"numero\": 12345678,\r\n  \"rol\": \"Profesor\",\r\n  \"jefeId\": \"\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Crear un usuario",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cedula\": 123456,\r\n  \"nombre\": \"Juan\",\r\n  \"grupo\": \"TICSW\",\r\n  \"numero\": 12345678,\r\n  \"rol\": \"Profesor\",\r\n  \"jefeId\": \"\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"cedula\": 123456,\r\n    \"nombre\": \"Juan\",\r\n    \"grupo\": \"TICSW\",\r\n    \"numero\": 12345678,\r\n    \"rol\": \"Profesor\",\r\n    \"jefeId\": \"\",\r\n    \"id\": \"25053780-1d7f-4d0f-a441-d0db92ea7a92\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Crear una clase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.globals.set(\"clase_id\", data.id);  \r",
+									"pm.globals.set(\"codigo_clase\", data.codigo);  \r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Programación Avanzada\",\r\n  \"codigo\": \"CODIGO1112\",\r\n  \"creditos\": 3\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clases",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clases"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Crear una clase",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombre\": \"Programación Avanzada\",\r\n  \"codigo\": \"CODIGO1234\",\r\n  \"creditos\": 3\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/clases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clases"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"nombre\": \"Programación Avanzada\",\r\n    \"codigo\": \"CODIGO1234\",\r\n    \"creditos\": 3\r\n    \"id\": \"23d3db0d-3202-44d2-b5ad-e5ef5a626a1a\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Crear un bono",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.globals.set(\"bono_id\", data.id);  \r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"monto\": 1200,\r\n  \"calificacion\": 4.0,\r\n  \"palabraClave\": \"Excelencia\",\r\n  \"usuario\": \"{{usuario_id}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bonos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bonos"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Crear un bono",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"monto\": 1200,\r\n  \"calificacion\": 4.0,\r\n  \"palabraClave\": \"Excelencia\",\r\n  \"usuario\": \"{{usuario_id}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bonos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bonos"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"monto\":1200,\"calificacion\":4,\r\n    \"palabraClave\":\"Excelencia\",\r\n    \"usuario\":\"a8fe04d6-d8a5-4d20-8410-8f9ed91e062d\",\r\n    \"id\":\"1c3c2baf-1ef1-4fd0-816d-134da20ae17b\"\r\n}\r\n"
+						}
+					]
+				},
+				{
+					"name": "Crear un bono inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"  pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Get expected error message\", function () {\r",
+									"  var data = pm.response.json();\r",
+									"  pm.expect(data.message[0]).to.eql(\"monto must be a positive number\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"monto\": -1500,\r\n  \"calificacion\": 4.0,\r\n  \"palabraClave\": \"Excelencia\",\r\n  \"usuario\": \"{{usuario_id}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bonos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bonos"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Crear un bono inválido",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"monto\": -1500,\r\n  \"calificacion\": 4.0,\r\n  \"palabraClave\": \"Excelencia\",\r\n  \"usuario\": \"{{usuario_id}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bonos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bonos"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": [\"monto must be a positive number\"],\r\n    \"error\":\"Bad Request\",\r\n    \"statusCode\":400\r\n}\r\n"
+						}
+					]
+				},
+				{
+					"name": "Obtener bonos por código de clase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain bonos\", function () {\r",
+									"  var data = pm.response.json();\r",
+									"  pm.expect(data).to.be.an('array');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bonos/clase/{{codigo_clase}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bonos",
+								"clase",
+								"{{codigo_clase}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener bonos por código de clase",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bonos/clase/{{codigo_clase}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bonos",
+										"clase",
+										"{{codigo_clase}}"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "[]"
+						}
+					]
+				},
+				{
+					"name": "Obtener bonos por código de clase inválida",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Get expected error message\", function () {\r",
+									"  var data = pm.response.json();\r",
+									"  pm.expect(data.message).to.eql(\"Clase no encontrada con el código proporcionado.\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bonos/clase/INVALID_CODE",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bonos",
+								"clase",
+								"INVALID_CODE"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener bonos por código de clase inválida",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bonos/clase/INVALID_CODE",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bonos",
+										"clase",
+										"INVALID_CODE"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"statusCode\":404,\r\n    \"message\":\"Clase no encontrada con el código proporcionado.\"\r\n}\r\n"
+						}
+					]
+				},
+				{
+					"name": "Obtener bonos por usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain bonos\", function () {\r",
+									"  var data = pm.response.json();\r",
+									"  pm.expect(data).to.be.an('array');\r",
+									"  pm.expect(data.length).to.be.greaterThan(0);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bonos/usuario/{{usuario_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bonos",
+								"usuario",
+								"{{usuario_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener bonos por usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bonos/usuario/{{usuario_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bonos",
+										"usuario",
+										"{{usuario_id}}"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "[\r\n    {\r\n        \"id\":\"1c3c2baf-1ef1-4fd0-816d-134da20ae17b\",\r\n        \"monto\":1200,\"calificacion\":4,\r\n        \"palabraClave\":\"Excelencia\"        \r\n    }\r\n]\r\n"
+						}
+					]
+				},
+				{
+					"name": "Obtener bonos por usuario inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Get expected error message\", function () {\r",
+									"  var data = pm.response.json();\r",
+									"  pm.expect(data.message).to.eql(\"Usuario no encontrado con el ID proporcionado.\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bonos/usuario/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bonos",
+								"usuario",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener bonos por usuario inválido",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bonos/usuario/00000000-0000-0000-0000-000000000000",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bonos",
+										"usuario",
+										"00000000-0000-0000-0000-000000000000"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"statusCode\":404,\r\n    \"message\":\"Usuario no encontrado con el ID proporcionado.\"\r\n}\r\n"
+						}
+					]
+				},
+				{
+					"name": "Eliminar un bono",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bonos/{{bono_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bonos",
+								"{{bono_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Eliminar un bono",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/bonos/{{bono_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bonos",
+										"{{bono_id}}"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Eliminar un bono inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"   pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Get expected error message\", function () {\r",
+									"   var data = pm.response.json();\r",
+									"   pm.expect(data.message).to.eql(\"Bono no encontrado.\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bonos/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bonos",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Eliminar un bono inválido",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/bonos/00000000-0000-0000-0000-000000000000",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bonos",
+										"00000000-0000-0000-0000-000000000000"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"statusCode\":404,\r\n    \"message\":\"Bono no encontrado.\"\r\n}\r\n"
+						}
+					]
+				}
+			],
+			"description": "### Descripción de las pruebas\n\n#### 1\\. **Crear Bono**\n\n- **Caso Positivo (Crear Bono Válido)**: Verifica que se pueda crear un bono con los valores correctos, asegurando que el proceso de asignación de bonos funcione sin errores.\n    \n- **Caso Negativo (Monto Negativo)**: Valida que el sistema rechace bonos con montos negativos, garantizando que todos los bonos creados tengan valores positivos y consistentes con las reglas de negocio.\n    \n\n#### 2\\. **Obtener Bono por Código de Clase**\n\n- **Caso Positivo (Código de Clase Válido)**: Comprueba que el sistema pueda recuperar todos los bonos asignados a una clase específica, asegurando que la consulta de bonos funcione correctamente.\n    \n- **Caso Negativo (Código de Clase Inválido)**: Verifica que la API maneje adecuadamente las solicitudes para clases que no existen, devolviendo un `404 Not Found` y evitando resultados incorrectos.\n    \n\n#### 3\\. **Obtener Todos los Bonos por Usuario**\n\n- **Caso Positivo (Usuario Válido)**: Verifica que el sistema pueda devolver todos los bonos asociados a un usuario, asegurando que la consulta de bonos funcione correctamente.\n    \n- **Caso Negativo (Usuario No Existente)**: Valida que el sistema responda adecuadamente cuando se intenta consultar bonos de un usuario que no existe, devolviendo un `404 Not Found`.\n    \n\n#### 4\\. **Eliminar Bono**\n\n- **Caso Positivo (Eliminar Bono Válido)**: Asegura que la API permita eliminar bonos existentes cuando cumplen con los requisitos (por ejemplo, calificación menor o igual a 4), validando que la eliminación de bonos se realice sin errores.\n    \n- **Caso Negativo (Eliminar Bono Inválido)**: Valida que los bonos inexistentes no pueden ser eliminados."
+		}
+	]
+}

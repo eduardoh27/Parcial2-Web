@@ -11,6 +11,10 @@ export class ClaseService {
         private readonly claseRepository: Repository<ClaseEntity>
     ) {}
 
+    async findAll(): Promise<ClaseEntity[]> {
+        return this.claseRepository.find({ relations: ['usuario', 'bonos'] });
+      }
+
     async crearClase(clase: ClaseEntity): Promise<ClaseEntity> {
         if (clase.codigo.length !== 10) {
             throw new BusinessLogicException('El código de la clase debe tener exactamente 10 caracteres.', BusinessError.BAD_REQUEST);
