@@ -7,9 +7,8 @@ import { UsuarioEntity } from '../usuario/usuario.entity';
 import { ClaseEntity } from '../clase/clase.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([BonoEntity, UsuarioEntity, ClaseEntity])], 
+  imports: [TypeOrmModule.forFeature([BonoEntity, UsuarioEntity, ClaseEntity])],
   providers: [BonoService],
   controllers: [BonoController],
-  exports: [BonoService], 
 })
 export class BonoModule {}

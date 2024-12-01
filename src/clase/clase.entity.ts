@@ -4,8 +4,8 @@ import { BonoEntity } from '../bono/bono.entity';
 
 @Entity()
 export class ClaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number; 
+    @PrimaryGeneratedColumn('uuid')
+    id: string; 
 
     @Column()
     nombre: string; 

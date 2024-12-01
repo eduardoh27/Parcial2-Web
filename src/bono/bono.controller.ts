@@ -1,54 +1,35 @@
-import { Controller, Get, Post, Param, Body, Delete, HttpCode } from '@nestjs/common';
-import { BonoService } from './bono.service';
-import { BonoEntity } from './bono.entity';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseInterceptors } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
+import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
 import { BonoDto } from './bono.dto';
-import { BusinessLogicException } from '../shared/errors/business-errors';
-import { UsuarioEntity } from 'src/usuario/usuario.entity';
+import { BonoEntity } from './bono.entity';
+import { BonoService } from './bono.service';
 
 @Controller('bonos')
+@UseInterceptors(BusinessErrorsInterceptor)
 export class BonoController {
-    constructor(private readonly bonoService: BonoService) {}
+  constructor(private readonly bonoService: BonoService) {}
 
-    @Post()
-    async crearBono(@Body() bonoDto: BonoDto): Promise<BonoEntity> {
-        try {
-            const bono = new BonoEntity();
-            bono.monto = bonoDto.monto;
-            bono.calificacion = bonoDto.calificacion;
-            bono.palabraClave = bonoDto.palabraClave;
-            bono.usuario = { id: bonoDto.usuarioId } as UsuarioEntity; 
+  @Post()
+  async crearBono(@Body() bonoDto: BonoDto) {
+    const bono: BonoEntity = plainToInstance(BonoEntity, bonoDto);
+    return await this.bonoService.crearBono(bono);
+  }
 
-            return await this.bonoService.crearBono(bono);
-        } catch (error) {
-            throw new BusinessLogicException(error.message, error.type);
-        }
-    }
+  @Get('clase/:cod')
+  async findBonoByCodigo(@Param('cod') cod: string) {
+    return await this.bonoService.findBonoByCodigo(cod);
+  }
 
-    @Get('codigo/:cod')
-    async findBonoByCodigo(@Param('cod') cod: string): Promise<BonoEntity[]> {
-        try {
-            return await this.bonoService.findBonoByCodigo(cod);
-        } catch (error) {
-            throw new BusinessLogicException(error.message, error.type);
-        }
-    }
+  @Get('usuario/:usuarioId')
+  async findAllBonosByUsuario(@Param('usuarioId') usuarioId: string) {
+    return await this.bonoService.findAllBonosByUsuario(usuarioId);
+  }
 
-    @Get('usuario/:userID')
-    async findAllBonosByUsuario(@Param('userID') userID: number): Promise<BonoEntity[]> {
-        try {
-            return await this.bonoService.findAllBonosByUsuario(userID);
-        } catch (error) {
-            throw new BusinessLogicException(error.message, error.type);
-        }
-    }
-
-    @Delete(':id')
-    @HttpCode(204)
-    async deleteBono(@Param('id') id: number): Promise<void> {
-        try {
-            await this.bonoService.deleteBono(id);
-        } catch (error) {
-            throw new BusinessLogicException(error.message, error.type);
-        }
-    }
+  @Delete(':bonoId')
+  @HttpCode(204)
+  async deleteBono(@Param('bonoId') bonoId: string) {
+    return await this.bonoService.deleteBono(bonoId);
+  }
+  
 }

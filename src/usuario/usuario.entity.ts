@@ -4,8 +4,8 @@ import { BonoEntity } from '../bono/bono.entity';
 
 @Entity()
 export class UsuarioEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column({ unique: true })
     cedula: number;
@@ -22,8 +22,8 @@ export class UsuarioEntity {
     @Column()
     rol: string;
 
-    @ManyToOne(() => UsuarioEntity, usuario => usuario.id, { nullable: true })
-    jefe: UsuarioEntity;
+    @Column({ nullable: true }) 
+    jefeId: string;  
 
     @OneToMany(() => ClaseEntity, clase => clase.usuario)
     clases: ClaseEntity[];

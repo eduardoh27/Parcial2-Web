@@ -19,7 +19,7 @@ export class ClaseService {
         return await this.claseRepository.save(clase);
     }
 
-    async findClaseById(id: number): Promise<ClaseEntity> {
+    async findClaseById(id: string): Promise<ClaseEntity> {
         const clase = await this.claseRepository.findOne({ where: { id } });
         if (!clase) {
             throw new BusinessLogicException('Clase no encontrada', BusinessError.NOT_FOUND);

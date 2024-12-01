@@ -1,17 +1,18 @@
-import { IsNotEmpty, IsPositive, IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsString, IsInt, IsPositive, IsNumber, Min } from 'class-validator';
 
 export class BonoDto {
-    @IsPositive()
-    monto: number;
 
-    @IsOptional()
-    @IsNumber()
-    calificacion?: number;
+  @IsInt()
+  @IsPositive()
+  @IsNotEmpty()
+  readonly monto: number;
 
-    @IsString()
-    @IsNotEmpty()
-    palabraClave: string;
+  @IsNumber()
+  @Min(0)
+  @IsNotEmpty()
+  readonly calificacion: number;
 
-    @IsNumber()
-    usuarioId: number; 
+  @IsString()
+  @IsNotEmpty()
+  readonly palabraClave: string;
 }

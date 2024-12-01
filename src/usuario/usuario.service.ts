@@ -15,6 +15,12 @@ export class UsuarioService {
         private readonly bonoRepository: Repository<BonoEntity>
     ) {}
 
+      
+  async findAll(): Promise<UsuarioEntity[]> {
+    return this.usuarioRepository.find({ relations: ['clases', 'bonos'] });
+  }
+
+
     async crearUsuario(usuario: UsuarioEntity): Promise<UsuarioEntity> {
         if (usuario.rol === 'Profesor' && !['TICSW', 'IMAGINE', 'COMIT'].includes(usuario.grupo)) {
             throw new BusinessLogicException('El grupo de investigación debe ser uno de los siguientes: TICSW, IMAGINE, COMIT.', BusinessError.BAD_REQUEST);
@@ -27,7 +33,7 @@ export class UsuarioService {
         return await this.usuarioRepository.save(usuario);
     }
 
-    async findUsuarioById(id: number): Promise<UsuarioEntity> {
+    async findUsuarioById(id: string): Promise<UsuarioEntity> {
         const usuario = await this.usuarioRepository.findOne({ where: { id } });
         if (!usuario) {
             throw new BusinessLogicException('Usuario no encontrado', BusinessError.NOT_FOUND);
@@ -35,7 +41,7 @@ export class UsuarioService {
         return usuario;
     }
 
-    async eliminarUsuario(id: number): Promise<void> {
+    async eliminarUsuario(id: string): Promise<void> {
         const usuario = await this.usuarioRepository.findOne({ where: { id } });
         if (!usuario) {
             throw new BusinessLogicException('Usuario no encontrado', BusinessError.NOT_FOUND);

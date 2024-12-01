@@ -42,7 +42,7 @@ export class BonoService {
         return clase.bonos; 
     }
 
-    async findAllBonosByUsuario(userID: number): Promise<BonoEntity[]> {
+    async findAllBonosByUsuario(userID: string): Promise<BonoEntity[]> {
         const usuario = await this.usuarioRepository.findOne({ where: { id : userID }, relations: ['bonos'] });
         
         if (!usuario) {
@@ -52,8 +52,9 @@ export class BonoService {
         return usuario.bonos; 
     }
 
-    async deleteBono(id: number): Promise<void> {
+    async deleteBono(id: string): Promise<void> {
         const bono = await this.bonoRepository.findOne({ where: { id } });
+
         if (!bono) {
             throw new BusinessLogicException('Bono no encontrado.', BusinessError.NOT_FOUND);
         }

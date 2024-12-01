@@ -4,13 +4,13 @@ import { ClaseEntity } from '../clase/clase.entity';
 
 @Entity()
 export class BonoEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column()
     monto: number;  
 
-    @Column()
+    @Column('float')
     calificacion: number; 
     
     @Column()
